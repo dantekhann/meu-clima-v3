@@ -15,8 +15,11 @@ Nuvem Inteligente: Ícone climático com posicionamento relativo e animação de
 🛠️ Tecnologias UtilizadasHTML5 & CSS3: Design com Glassmorphism, Variáveis CSS e Flexbox.JavaScript (ES6+): Uso intensivo de Async/Await, RegEx para limpeza de dados e manipulação dinâmica de Data-Attributes.Open-Meteo API: Geocoding e Weather API integradas com lógica de fuso horário.
 
 📂 Estrutura do ProjetoPlaintextweather-app/
+
 ├── index.html          # Estrutura principal e container de alertas
-├── style.css           # Estilização global, temas Dia/Noite e animações
+
+├── style.css           # Estilização global e animações
+
 └── script.js           # Lógica de normalização, busca, fallback e renderização
 
 🔧 Como Rodar o Projeto
