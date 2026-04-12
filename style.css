@@ -1,75 +1,159 @@
+/* --- VARIÁVEIS DE CORES (Baseadas no seu print) --- */
 :root {
-  --fundo: #0a0a0a;
-  --cartao: rgba(26, 26, 26, 0.85); /* Transparência para o efeito de vidro */
-  --destaque: #ccff00; 
+  --fundo: #121214;
+  --card: #1e1e26;
   --texto: #ffffff;
-  --texto-suave: #b3b3b3;
-  --perigo: #ff4d4d;
-  --nublado: #00d4ff;
+  --texto-suave: #a8a8b3;
+  --destaque: #00d2ff; /* Azul Realtime */
+  --perigo: #ff5555;
+  --neon-btn: #ccff00; /* Verde limão do seu botão */
+}
+
+/* --- RESET --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
 }
 
 body {
   background-color: var(--fundo);
   color: var(--texto);
-  font-family: 'Segoe UI', sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  margin: 0;
-  /* Opcional: Adicione um gradiente sutil ao fundo para destacar o efeito de vidro */
-  background: radial-gradient(circle at top right, #1a1a1a, #0a0a0a);
+  min-height: 100vh;
 }
 
-#app { text-align: center; width: 90%; max-width: 400px; }
-
-input[type="text"] {
-    width: 100%;
-    padding: 16px;
-    border-radius: 14px;
-    border: 2px solid #222;
-    background-color: #1a1a1a;
-    color: var(--texto);
-    margin-bottom: 20px;
-    outline: none;
-    box-sizing: border-box;
-    transition: 0.3s;
-}
-
-input[type="text"]:focus { border-color: var(--destaque); }
-
-button {
-  background-color: var(--destaque);
-  color: var(--fundo);
-  border: none;
-  padding: 18px;
-  border-radius: 50px;
-  font-weight: bold;
+#app {
   width: 100%;
-  cursor: pointer;
+  max-width: 450px;
+  padding: 20px;
+  text-align: center;
+}
+
+/* --- TÍTULO --- */
+h1 {
+  font-weight: 300;
+  margin-bottom: 30px;
+}
+
+h1 strong {
+  color: var(--destaque);
+}
+
+/* --- INPUT (Onde o árabe agora fica centralizado) --- */
+.input-group {
+  margin-bottom: 20px;
+}
+
+#cidadeInput {
+  width: 100%;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  color: white;
+  font-size: 1rem;
+  outline: none;
   transition: 0.3s;
+
+  /* CENTRALIZAÇÃO TOTAL */
+  text-align: center !important;
+  unicode-bidi: plaintext;
 }
 
-button:hover { transform: scale(0.98); opacity: 0.9; }
+#cidadeInput:focus {
+  border-color: var(--destaque);
+}
 
+/* --- BOTÃO (Verde Limão do Print) --- */
+#btnVerificar {
+  width: 100%;
+  padding: 15px;
+  background-color: var(--neon-btn);
+  color: #000;
+  border: none;
+  border-radius: 30px; /* Estilo pílula do seu print */
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: transform 0.2s;
+}
+
+#btnVerificar:hover {
+  transform: scale(1.02);
+}
+
+/* --- CARD DE RESULTADO (Estilo do Print) --- */
 .alerta-moderno {
-  background-color: var(--cartao);
-  backdrop-filter: blur(12px); /* Efeito de vidro */
-  -webkit-backdrop-filter: blur(12px);
+  background: var(--card);
+  border-left: 6px solid var(--destaque);
+  padding: 30px;
   border-radius: 20px;
-  padding: 25px;
-  margin: 20px 0;
-  text-align: left;
-  border-left: 8px solid var(--destaque);
-  border-top: 1px solid rgba(255, 255, 255, 0.1); /* Brilho na borda superior */
-  box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-  animation: subir 0.5s ease-out;
+  text-align: left; /* Conteúdo interno alinhado à esquerda como no print */
+  margin-bottom: 20px;
+  position: relative;
+  animation: fadeIn 0.4s ease;
 }
 
-@keyframes subir {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+.skeleton {
+    width: 100%;
+    height: 250px; /* Mesma altura média do seu card */
+    background: linear-gradient(90deg, #1e1e26 25%, #2a2a35 50%, #1e1e26 75%);
+    background-size: 200% 100%;
+    border-radius: 20px;
+    animation: loading 1.5s infinite;
+    margin-bottom: 40px;
 }
 
-.temp-grande { font-size: 3.5rem; font-weight: bold; margin: 5px 0; }
-.weather-icon-main { font-size: 3rem; display: block; margin-bottom: 10px; }
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.alerta-moderno h2 {
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+  margin-bottom: 10px;
+  word-break: break-word; /* Suporta nomes longos */
+}
+
+.temp-grande {
+  font-size: 4rem;
+  font-weight: bold;
+  margin: 10px 0;
+  color: var(--destaque);
+}
+
+.weather-icon-main {
+  font-size: 3rem;
+  position: absolute;
+  right: 30px;
+  top: 40px;
+}
+
+/* Texto de descrição do clima */
+.alerta-moderno p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* Mensagem de erro */
+#notificacao-container p {
+  color: var(--perigo);
+  margin: 15px 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

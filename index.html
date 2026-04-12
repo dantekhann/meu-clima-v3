@@ -6,15 +6,27 @@
     <title>Meu Clima Realtime</title>
     <link rel="stylesheet" href="style.css">
 </head>
+    
+    <style>
+        #cidadeInput, #notificacao-container {
+            unicode-bidi: plaintext;
+            text-align: start;
+        }
+    </style>
+</head>
 <body>
     <div id="app">
         <h1 style="font-weight: 300;">Previsão <strong style="color: var(--destaque);">Realtime</strong></h1>
+        
         <div class="input-group">
-            <input type="text" id="cidadeInput" placeholder="Ex: Alegrete, Medan, Cairo">
+            <input type="text" id="cidadeInput" placeholder="Ex: São-Tomé, Cairo, القاهرة" autocomplete="off">
         </div>
+
         <div id="notificacao-container"></div>
+        
         <button id="btnVerificar" onclick="buscarClimaReal()">Verificar Clima</button>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
