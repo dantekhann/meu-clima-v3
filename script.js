@@ -68,45 +68,73 @@ async function buscarClimaReal() {
   const input = document.getElementById("cidadeInput");
   const container = document.getElementById("notificacao-container");
   const btn = document.getElementById("btnVerificar");
-  const cidade = input.value.trim();
 
-  if (cidade === "") return alert("Digite o nome de uma cidade!");
+  // 1. Pegamos o valor bruto do input
+  const cidadeRaw = input.value.trim();
 
+  // 2. LIMPEZA TOTAL (O hífen DEVE ser o último antes do ] no Regex)
+  // Permite letras (A-Z), acentos (à-ú), espaços (\s) e hífens (-)
+  // Remove emojis, números e símbolos como @, #, !
+  let cidade = cidadeRaw.replace(/[^a-zA-Zà-úÀ-Ú\s-]/g, "");
+
+  // 3. REMOVE HÍFENS "SOLTOS"
+  // Se o usuário digitar "-Paris-" por erro, isso limpa as pontas
+  cidade = cidade.replace(/^-+|-+$/g, "").trim();
+
+  // 4. VALIDAÇÃO DE ENTRADA
+  if (cidade.length < 2) {
+    container.innerHTML = `<p style="color: var(--perigo); text-align: center;">Por favor, digite um nome de cidade válido.</p>`;
+    return;
+  }
+
+  // CONFIGURAÇÃO DO TIMEOUT (V3)
   const controller = new AbortController();
-  // Aumentei para 10 segundos para dar mais folga no seu teste
-  const timeoutId = setTimeout(() => controller.abort(), 10000); 
+  const timeoutId = setTimeout(() => controller.abort(), 10000);
 
   btn.disabled = true;
   btn.innerText = "Consultando...";
   container.innerHTML = "";
 
   try {
-    console.log("Iniciando busca para:", cidade);
+    // BUSCA 1: Geocodificação
+    // DICA: Substituímos o hífen por espaço no nome da busca para ajudar a API a encontrar melhor
+    const cidadeParaBusca = cidade.replace(/-/g, " ");
 
     const geoRes = await fetch(
-      `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cidade)}&count=1&language=pt&format=json`,
-      { signal: controller.signal }
+      `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cidadeParaBusca)}&count=1&language=pt&format=json`,
+      { signal: controller.signal },
     );
-    
+
     const geoData = await geoRes.json();
-    if (!geoData.results) throw new Error("Cidade não encontrada!");
+
+    // Validação: Se a API não encontrar nada
+    if (!geoData.results || geoData.results.length === 0) {
+      throw new Error("Local não encontrado. Verifique a ortografia!");
+    }
 
     const { latitude, longitude, name, admin1, country } = geoData.results[0];
 
+    // BUSCA 2: Clima em Tempo Real
     const weatherRes = await fetch(
       `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`,
-      { signal: controller.signal }
+      { signal: controller.signal },
     );
     const weatherData = await weatherRes.json();
 
-    // SUCESSO: Desliga o cronômetro
+    // SUCESSO: Desliga o cronômetro de 10s
     clearTimeout(timeoutId);
-    console.log("Busca concluída com sucesso!");
 
-  
-    // [Mantenha a parte do card que você já tem]
     const data = weatherData.current_weather;
-    const config = weatherConfig[data.weathercode] || { label: "Estável", icon: "🌤️", color: "var(--destaque)", msg: "Aproveite o dia!" };
+
+    // Fallback: Caso o código de clima não esteja no seu weatherConfig
+    const config = weatherConfig[data.weathercode] || {
+      label: "Estável",
+      icon: "🌤️",
+      color: "var(--destaque)",
+      msg: "Aproveite o dia!",
+    };
+
+    // Renderização do Card
     const card = document.createElement("div");
     card.className = "alerta-moderno";
     card.style.borderLeftColor = config.color;
@@ -120,18 +148,17 @@ async function buscarClimaReal() {
             <p>${config.msg}</p>
         `;
     container.appendChild(card);
-
   } catch (erro) {
-    console.error("Erro capturado:", erro.name, erro.message); // Isso vai te dizer o problema no F12
-
-    if (erro.name === 'AbortError') {
-      container.innerHTML = `<p style="color: var(--perigo); text-align: center;">A conexão demorou muito. Tente de novo.</p>`;
+    // Tratamento de Erros
+    if (erro.name === "AbortError") {
+      container.innerHTML = `<p style="color: var(--perigo); text-align: center;">A conexão demorou muito. Tente novamente.</p>`;
     } else if (!navigator.onLine || erro.message === "Failed to fetch") {
-      container.innerHTML = `<p style="color: var(--perigo); text-align: center;">Sem internet!</p>`;
+      container.innerHTML = `<p style="color: var(--perigo); text-align: center;">Sem internet! Verifique sua rede.</p>`;
     } else {
       container.innerHTML = `<p style="color: var(--perigo); text-align: center;">${erro.message}</p>`;
     }
   } finally {
+    // Garante que o botão volte ao normal
     btn.disabled = false;
     btn.innerText = "Verificar Clima";
   }
