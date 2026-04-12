@@ -1,0 +1,75 @@
+:root {
+  --fundo: #0a0a0a;
+  --cartao: rgba(26, 26, 26, 0.85); /* Transparência para o efeito de vidro */
+  --destaque: #ccff00; 
+  --texto: #ffffff;
+  --texto-suave: #b3b3b3;
+  --perigo: #ff4d4d;
+  --nublado: #00d4ff;
+}
+
+body {
+  background-color: var(--fundo);
+  color: var(--texto);
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  /* Opcional: Adicione um gradiente sutil ao fundo para destacar o efeito de vidro */
+  background: radial-gradient(circle at top right, #1a1a1a, #0a0a0a);
+}
+
+#app { text-align: center; width: 90%; max-width: 400px; }
+
+input[type="text"] {
+    width: 100%;
+    padding: 16px;
+    border-radius: 14px;
+    border: 2px solid #222;
+    background-color: #1a1a1a;
+    color: var(--texto);
+    margin-bottom: 20px;
+    outline: none;
+    box-sizing: border-box;
+    transition: 0.3s;
+}
+
+input[type="text"]:focus { border-color: var(--destaque); }
+
+button {
+  background-color: var(--destaque);
+  color: var(--fundo);
+  border: none;
+  padding: 18px;
+  border-radius: 50px;
+  font-weight: bold;
+  width: 100%;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover { transform: scale(0.98); opacity: 0.9; }
+
+.alerta-moderno {
+  background-color: var(--cartao);
+  backdrop-filter: blur(12px); /* Efeito de vidro */
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 25px;
+  margin: 20px 0;
+  text-align: left;
+  border-left: 8px solid var(--destaque);
+  border-top: 1px solid rgba(255, 255, 255, 0.1); /* Brilho na borda superior */
+  box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+  animation: subir 0.5s ease-out;
+}
+
+@keyframes subir {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.temp-grande { font-size: 3.5rem; font-weight: bold; margin: 5px 0; }
+.weather-icon-main { font-size: 3rem; display: block; margin-bottom: 10px; }
