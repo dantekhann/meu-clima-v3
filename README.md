@@ -24,7 +24,7 @@ Nuvem Inteligente: Ícone climático com posicionamento relativo e animação de
 
 🔧 Como Rodar o Projeto
 Clone este repositório:
-git clone [https://github.com/SEU-USUARIO/meu-clima-v2.git](https://github.com/SEU-USUARIO/meu-clima-v3.git)
+git clone [https://github.com/SEU-USUARIO/meu-clima-v3.git]
 
 👤 Autor
 Paulo Dante Coelho Neto
