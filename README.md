@@ -1,4 +1,4 @@
-🌤️ Meu Clima Real - v3.0 
+🌤️ ClimaHub-v3
 
 Um aplicativo de previsão do tempo de alta precisão e resiliência, desenvolvido com Vanilla JS. A versão 3.0 foi focada em Edge Cases (casos extremos).
 
@@ -24,7 +24,7 @@ Nuvem Inteligente: Ícone climático com posicionamento relativo e animação de
 
 🔧 Como Rodar o Projeto
 Clone este repositório:
-git clone https://github.com/SEU-USUARIO/meu-clima-v3.git
+git clone https://github.com/SEU-USUARIO/ClimaHub-v3.git
 
 👤 Autor
 Paulo Dante Coelho Neto
